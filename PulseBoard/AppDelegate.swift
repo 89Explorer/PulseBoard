@@ -15,16 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // FireBase 초기화
-        FirebaseApp.configure()
-        
-        // Firebase 연동 확인
-        if let app = FirebaseApp.app() {
-            LogManager.print(.success, "Firebase 초기화 성공")
-        } else {
-            LogManager.print(.error, "Firebase 초기화 실패")
-        }
-        
+        FirebaseApp.configure()        // FireBase 초기화
         return true
     }
 
