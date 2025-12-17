@@ -6,14 +6,25 @@
 //
 
 import UIKit
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // FireBase 초기화
+        FirebaseApp.configure()
+        
+        // Firebase 연동 확인
+        if let app = FirebaseApp.app() {
+            LogManager.print(.success, "Firebase 초기화 성공")
+        } else {
+            LogManager.print(.error, "Firebase 초기화 실패")
+        }
+        
         return true
     }
 
