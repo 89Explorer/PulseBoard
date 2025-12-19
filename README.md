@@ -1,5 +1,5 @@
 # PulseBoard
-A category-based micro SNS focused on limited and meaningful opinions
+<p>A category-based micro SNS focused on limited and meaningful opinions</p>
 PulseBoard는 트위터처럼 짧은 글로 의견을 나누는 미니 SNS입니다.
 사용자가 직접 카테고리를 생성하고, 그 안에서 **제한된 수의 의견(Pulse)**을 공유합니다.
 
