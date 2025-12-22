@@ -38,7 +38,8 @@ final class AuthService: AuthProviding {
     func observeAuthState(_ handler: @escaping (String?) -> Void) {
         // Firebase Auth 상태 감시
         authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
-            handler(user?.uid)
+            let uid = user?.uid
+            handler(uid)
         }
     }
     

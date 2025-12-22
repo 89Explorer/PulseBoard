@@ -51,7 +51,7 @@ final class RootCoordinator {
     /// 1. 앱 시작 시 현재 Auth 상태로 한 번 분기
     /// 2. 이후 Auth 상태 변화에 따라 root 화면을 갱신
     func start() {
-        
+    
         // 앱 시작 시 현재 상태로 한 번 분기
         switchToRoot(uid: authViewModel.currentUserUID)
         
