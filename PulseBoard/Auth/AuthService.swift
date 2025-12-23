@@ -24,6 +24,9 @@ final class AuthService: AuthProviding {
     /// Apple 로그인 전담 핸들러
     private let appleHandler = AppleAuthHandler()
     
+    /// Google 로그인 전담 핸들러
+    private let googleHandler = GoogleAuthHandler()
+    
     /// Firebase Auth 상태 리스너 핸들
     private var authStateHandle: AuthStateDidChangeListenerHandle?
     
@@ -61,8 +64,18 @@ final class AuthService: AuthProviding {
                 completion: completion
             )
             
-        case .google,
-                .kakao,
+        case .google:
+            guard let viewController = presentationContext as? UIViewController else {
+                completion(.failure(AuthError.invalidCredential))
+                return
+            }
+            
+            googleHandler.startLogin(
+                presentingViewController: viewController,
+                completion: completion
+            )
+            
+        case .kakao,
                 .naver:
             completion(.failure(AuthError.unsupportedProvider))
         }

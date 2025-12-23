@@ -14,7 +14,7 @@ import AuthenticationServices
 /// 로그인 화면을 담당하는 ViewController입니다.
 ///
 /// 이 화면의 책임은 다음으로 제한됩니다.
-/// 1. 로그인 UI 구성 (Apple / SNS 버튼)
+/// 1. 로그인 UI 구성 (Apple / Google 버튼)
 /// 2. 사용자의 로그인 선택 이벤트를 ViewModel로 전달
 ///
 /// ❗️실제 인증 로직(Firebase / Apple SDK 호출)은
@@ -41,6 +41,7 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupAppleLoginButton()
+        setupGoogleLoginButton()
     }
     
     
@@ -127,6 +128,46 @@ private extension LoginViewController {
 }
 
 
+// MARK: - Google Login Button
+
+private extension LoginViewController {
+
+    /// Google 로그인 버튼 UI 구성
+    func setupGoogleLoginButton() {
+        let button = makeGoogleLoginButton()
+        layoutLoginButton(button)
+    }
+
+    /// Google 로그인 버튼 생성 함수
+    func makeGoogleLoginButton() -> UIButton {
+        let button = UIButton(type: .system)
+
+        // 버튼 제목
+        button.setTitle("Google로 계속하기", for: .normal)
+
+        // 기본 배경
+        button.backgroundColor = .secondarySystemBackground
+
+        // 텍스트 컬러
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+
+        button.layer.cornerRadius = 12
+
+        button.addTarget(
+            self,
+            action: #selector(googleLoginTapped),
+            for: .touchUpInside
+        )
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+
+}
+
+
+
 // MARK: - User Interaction
 
 private extension LoginViewController {
@@ -137,6 +178,11 @@ private extension LoginViewController {
     /// - 실제 인증 처리 및 결과 판단은 AuthViewModel의 책임입니다.
     @objc func appleLoginTapped() {
         viewModel?.login(provider: .apple, from: self)
+    }
+    
+    /// Google 로그인 버튼 탭 이벤트 처리
+    @objc func googleLoginTapped() {
+        viewModel?.login(provider: .google, from: self)
     }
 }
 
