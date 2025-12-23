@@ -7,6 +7,7 @@
 
 import UIKit
 import AuthenticationServices
+import GoogleSignIn
 
 
 // MARK: - LoginViewController
@@ -34,14 +35,82 @@ final class LoginViewController: UIViewController {
     /// 외부(Coordinator / SceneDelegate 등)에서 주입받습니다.
     private var viewModel: AuthViewModel?
     
+    
+    // MARK: - UI
+    
+    /// Apple 로그인과 SNS 아이콘 로그인 영역을 시각적으로 구분하기 위한 구분선입니다.
+    ///
+    /// 단순한 divider 역할이며,
+    /// 실제 레이아웃 기준점(anchor) 역할도 함께 수행합니다.
+    private let seperator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    /// 구분선 중앙에 표시되는 안내 문구 라벨입니다.
+    ///
+    /// "SNS 계정으로 시작하기"와 같은 텍스트를 통해
+    /// Apple 로그인과 기타 SNS 로그인 영역의 의미를 명확히 구분합니다.
+    ///
+    /// 배경색을 흰색으로 설정하여
+    /// 구분선 위에 겹쳐 보이도록 구성합니다.
+    private let infoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    /// 전체 로그인 UI를 세로로 배치하는 StackView
+    ///
+    /// [ Apple 로그인 버튼 ]
+    /// [ Google / Kakao / Naver 아이콘 버튼 ]
+    private let totalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 36
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    /// SNS 아이콘 로그인 버튼을 가로로 배치하는 StackView
+    private let socialIconStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
 
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupView()    // 기본 배경 및 뷰 설정
+        
+        // Apple 로그인 영역과 SNS 로그인 영역을 구분하는 UI 구성
+        setupSeperatorLayout()
+        setupInfoLabelLayout()
+        
+        // 로그인 버튼들을 담는 StackView 구성
+        setupTotalStackViewLayout()
+        
+        // 로그인 버튼 추가
         setupAppleLoginButton()
-        setupGoogleLoginButton()
+        setupSocialIconButtons()
+        
+        // 안내 문구 설정
+        infoLabel.text = "SNS 계정으로 시작하기"
     }
     
     
@@ -73,6 +142,49 @@ private extension LoginViewController {
     func setupView() {
         view.backgroundColor = .white
     }
+    
+    /// 구분선 레이아웃을 구성합니다.
+    func setupSeperatorLayout() {
+        view.addSubview(seperator)
+        
+        NSLayoutConstraint.activate([
+            seperator.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
+            seperator.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48),
+            seperator.heightAnchor.constraint(equalToConstant: 2),
+            seperator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 180)
+        ])
+    }
+    
+    func setupInfoLabelLayout() {
+        view.addSubview(infoLabel)
+        
+        NSLayoutConstraint.activate([
+            infoLabel.centerXAnchor.constraint(equalTo: seperator.centerXAnchor),
+            infoLabel.centerYAnchor.constraint(equalTo: seperator.centerYAnchor)
+        ])
+    }
+    
+    /// 전체 로그인 버튼 영역을 구성합니다.
+    ///
+    /// - Apple 로그인 버튼과
+    /// - SNS 아이콘 로그인 버튼 그룹을
+    /// 하나의 세로 StackView로 묶어 관리합니다.
+    ///
+    /// 버튼 추가/제거 시
+    /// 개별 레이아웃 수정 없이 StackView 구성만 변경하면 되도록 설계되었습니다.
+    func setupTotalStackViewLayout() {
+        view.addSubview(totalStackView)
+
+        NSLayoutConstraint.activate([
+            totalStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            totalStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 280),
+            totalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 48),
+            totalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48)
+        ])
+
+        totalStackView.addArrangedSubview(socialIconStackView)
+    }
+
 }
 
 
@@ -85,9 +197,14 @@ private extension LoginViewController {
     /// - Apple HIG에 따라 `ASAuthorizationAppleIDButton`을 그대로 사용합니다.
     /// - 버튼의 내부 텍스트, 로고, 폰트는 커스터마이징하지 않습니다.
     /// - 버튼 크기와 레이아웃만 조정하여 UI 일관성을 맞춥니다.
+    /// - loginButtonStaackView에 추가합니다.
     func setupAppleLoginButton() {
         let button = makeAppleLoginButton()
-        layoutLoginButton(button)
+        totalStackView.insertArrangedSubview(button, at: 0)
+        
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 52)
+        ])
     }
 
     /// Apple 로그인을 위한 공식 버튼을 생성합니다.
@@ -110,62 +227,73 @@ private extension LoginViewController {
         return button
     }
 
-    /// 로그인 버튼의 공통 레이아웃을 정의합니다.
-    ///
-    /// Apple / Google / Kakao 등
-    /// 모든 SNS 로그인 버튼은 동일한 레이아웃 규칙을 사용합니다.
-    func layoutLoginButton(_ button: UIView) {
-        view.addSubview(button)
-
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: 52),
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
-        ])
-    }
 }
 
 
-// MARK: - Google Login Button
-
 private extension LoginViewController {
 
-    /// Google 로그인 버튼 UI 구성
-    func setupGoogleLoginButton() {
-        let button = makeGoogleLoginButton()
-        layoutLoginButton(button)
-    }
-
-    /// Google 로그인 버튼 생성 함수
-    func makeGoogleLoginButton() -> UIButton {
-        let button = UIButton(type: .system)
-
-        // 버튼 제목
-        button.setTitle("Google로 계속하기", for: .normal)
-
-        // 기본 배경
-        button.backgroundColor = .secondarySystemBackground
-
-        // 텍스트 컬러
-        button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-
-        button.layer.cornerRadius = 12
-
-        button.addTarget(
-            self,
-            action: #selector(googleLoginTapped),
-            for: .touchUpInside
+    /// Google / Kakao / Naver 아이콘 로그인 버튼을 구성합니다.
+    func setupSocialIconButtons() {
+        socialIconStackView.addArrangedSubview(
+            makeSocialIconButton(type: .google, action: #selector(googleLoginTapped))
         )
 
+        socialIconStackView.addArrangedSubview(
+            makeSocialIconButton(type: .kakao, action: #selector(kakaoLoginTapped))
+        )
+
+        socialIconStackView.addArrangedSubview(
+            makeSocialIconButton(type: .naver, action: #selector(naverLoginTapped))
+        )
+    }
+
+    /// SNS 아이콘 로그인 버튼을 생성하는 공용 팩토리 메서드입니다.
+    ///
+    /// - Google / Kakao / Naver 로그인 버튼은
+    ///   동일한 UI 규칙을 사용하여 생성됩니다.
+    /// - 실제 로그인 로직은 ViewModel/AuthService에 위임되며,
+    ///   이 버튼은 "어떤 Provider를 선택했는지"만 전달합니다.
+    ///
+    /// - Parameters:
+    ///   - type: 로그인 Provider에 따른 아이콘 타입
+    ///   - action: 버튼 탭 시 호출될 Selector
+    ///
+    /// - Returns: 원형 SNS 아이콘 버튼
+    func makeSocialIconButton(
+        type: SocialIconType,
+        action: Selector
+    ) -> UIButton {
+        let button = UIButton(type: .custom)
+
+        button.setImage(type.iconImage, for: .normal)
+        button.layer.cornerRadius = 28
+        button.clipsToBounds = true
+
+        button.imageView?.contentMode = .scaleAspectFit
+
+        // UIButton(type: .custom) 사용 시
+        // imageView 레이아웃이 명확하지 않기 때문에
+        // imageEdgeInsets를 통해 이미지 영역을 직접 제어합니다.
+        button.imageEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
+
+        button.addTarget(self, action: action, for: .touchUpInside)
+
         button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 56),
+            button.heightAnchor.constraint(equalToConstant: 56)
+        ])
+
         return button
     }
 
 }
-
 
 
 // MARK: - User Interaction
@@ -183,6 +311,15 @@ private extension LoginViewController {
     /// Google 로그인 버튼 탭 이벤트 처리
     @objc func googleLoginTapped() {
         viewModel?.login(provider: .google, from: self)
+    }
+    
+    
+    @objc func kakaoLoginTapped() {
+        viewModel?.login(provider: .kakao, from: self)
+    }
+    
+    @objc func naverLoginTapped() {
+        viewModel?.login(provider: .naver, from: self)
     }
 }
 
@@ -202,5 +339,30 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
         for controller: ASAuthorizationController
     ) -> ASPresentationAnchor {
         view.window!
+    }
+}
+
+
+/// 앱에서 지원하는 SNS 아이콘 타입을 정의합니다.
+///
+/// 각 Provider에 대응하는 아이콘 이미지를 캡슐화하여
+/// ViewController에서 분기 로직 없이 사용할 수 있도록 합니다.
+enum SocialIconType {
+    case google
+    case kakao
+    case naver
+
+    /// Provider에 대응하는 아이콘 이미지
+    ///
+    /// 이미지는 Assets.xcassets에 등록되어 있어야 합니다.
+    var iconImage: UIImage? {
+        switch self {
+        case .google:
+            return UIImage(named: "google_icon")
+        case .kakao:
+            return UIImage(named: "kakao_icon")
+        case .naver:
+            return UIImage(named: "naver_icon")
+        }
     }
 }
