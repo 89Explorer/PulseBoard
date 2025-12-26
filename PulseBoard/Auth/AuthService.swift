@@ -27,17 +27,21 @@ final class AuthService: AuthProviding {
     /// Google 로그인 전담 핸들러
     private let googleHandler = GoogleAuthHandler()
     
+    /// Kakao 로그인 전담 핸들러
+    private let kakaoHandler = KakaoAuthHandler()
+    
     /// Firebase Auth 상태 리스너 핸들
     private var authStateHandle: AuthStateDidChangeListenerHandle?
     
     
     // MARK: - Auth State
     
+    /// 현재 로그인된 사용자의 UID
     var currentUserUID: String? {
         Auth.auth().currentUser?.uid
     }
     
-    
+    /// Firebase Auth 상태 변화를 관찰합니다.
     func observeAuthState(_ handler: @escaping (String?) -> Void) {
         // Firebase Auth 상태 감시
         authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
@@ -49,6 +53,10 @@ final class AuthService: AuthProviding {
     
     // MARK: - Login
     
+    /// 소셜 로그인 진입점
+    ///
+    /// ViewModel은 어떤 SDK를 쓰는지 모르고,
+    /// 어떤 provider로 로그인할지만 전달합니다.
     func login(
         with provider: SocialLoginProvider,
         from presentationContext: ASAuthorizationControllerPresentationContextProviding,
@@ -75,8 +83,10 @@ final class AuthService: AuthProviding {
                 completion: completion
             )
             
-        case .kakao,
-                .naver:
+        case .kakao:
+            // Kakao 로그인은 async/await 기반이므로 Task로 감싼다.
+            
+        case .naver:
             completion(.failure(AuthError.unsupportedProvider))
         }
     }
