@@ -8,15 +8,26 @@
 import UIKit
 import FirebaseCore
 import KakaoSDKCommon
+import NidThirdPartyLogin
+import NidLogin
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         
-        FirebaseApp.configure()        // FireBase 초기화
+        // MARK: - FireBase 초기화
+        
+        FirebaseApp.configure()
+        
+        
+        // MARK: - Kakao 로그인
         
         if let kakaoAppKey = Bundle.main.object(
             forInfoDictionaryKey: "KAKAO_NATIVE_APP_KEY"
@@ -24,8 +35,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             KakaoSDK.initSDK(appKey: kakaoAppKey)
         }
         
+        
+        // MARK: - Naver 로그인
+        
+        // 초기화 값 검증 로그
+        LogManager.print(.success, "[NaverConfig] appName: \(ClientConfiguration.appName)")
+        LogManager.print(.success, "[NaverConfig] clientID:: \(ClientConfiguration.clientID)")
+        LogManager.print(.success, "[NaverConfig] urlScheme: \(ClientConfiguration.urlScheme)")
+        LogManager.print(.success, "[NaverConfig] clientSecret: \(ClientConfiguration.clientSecret)")
+        
+        NidOAuth.shared.initialize(
+            appName: ClientConfiguration.appName,
+            clientId: ClientConfiguration.clientID,
+            clientSecret: ClientConfiguration.clientSecret,
+            urlScheme: ClientConfiguration.urlScheme
+        )
+
+        LogManager.print(.success, "[NaverConfig] NidOAuth initialized")
         return true
     }
+    
+    
 
     // MARK: UISceneSession Lifecycle
 

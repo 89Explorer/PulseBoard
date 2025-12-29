@@ -12,6 +12,7 @@
 		A1A3759C2EFB941900B25F2F /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3759B2EFB941900B25F2F /* KakaoSDKUser */; };
 		A1A3763B2EFEE68F00B25F2F /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */; };
 		A1A3768E2F02F3B400B25F2F /* NidThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3768D2F02F3B400B25F2F /* NidThirdPartyLogin */; };
+		A1A376992F03137500B25F2F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A1A376982F03137500B25F2F /* .gitignore */; };
 		A1CCA3032EF31A77004FE4D0 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3022EF31A77004FE4D0 /* FirebaseAI */; };
 		A1CCA3052EF31A77004FE4D0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3042EF31A77004FE4D0 /* FirebaseAnalytics */; };
 		A1CCA3072EF31A77004FE4D0 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3062EF31A77004FE4D0 /* FirebaseAnalyticsCore */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1A376982F03137500B25F2F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A1CCA0992EF294A3004FE4D0 /* PulseBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulseBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1CCA0AF2EF294A5004FE4D0 /* PulseBoardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PulseBoardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1CCA0B92EF294A5004FE4D0 /* PulseBoardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PulseBoardUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 		A1CCA0902EF294A3004FE4D0 = {
 			isa = PBXGroup;
 			children = (
+				A1A376982F03137500B25F2F /* .gitignore */,
 				A1CCA09B2EF294A3004FE4D0 /* PulseBoard */,
 				A1CCA0B22EF294A5004FE4D0 /* PulseBoardTests */,
 				A1CCA0BC2EF294A5004FE4D0 /* PulseBoardUITests */,
@@ -296,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1A376992F03137500B25F2F /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +431,8 @@
 		};
 		A1CCA0C52EF294A5004FE4D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A1CCA09B2EF294A3004FE4D0 /* PulseBoard */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -491,6 +497,8 @@
 		};
 		A1CCA0C62EF294A5004FE4D0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A1CCA09B2EF294A3004FE4D0 /* PulseBoard */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

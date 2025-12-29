@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKAuth
+import NidThirdPartyLogin
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -41,7 +42,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return   // 🔥 이 return 이 핵심
         }
 
-        // 다른 URL들은 여기로
+        // ✅ Naver 로그인 URL 처리 (최신 SDK)
+        if NidOAuth.shared.handleURL(url) {
+            return
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
