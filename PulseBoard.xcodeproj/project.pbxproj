@@ -11,6 +11,7 @@
 		A1A3759A2EFB941900B25F2F /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = A1A375992EFB941900B25F2F /* KakaoSDKCommon */; };
 		A1A3759C2EFB941900B25F2F /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3759B2EFB941900B25F2F /* KakaoSDKUser */; };
 		A1A3763B2EFEE68F00B25F2F /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */; };
+		A1A3768E2F02F3B400B25F2F /* NidThirdPartyLogin in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3768D2F02F3B400B25F2F /* NidThirdPartyLogin */; };
 		A1CCA3032EF31A77004FE4D0 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3022EF31A77004FE4D0 /* FirebaseAI */; };
 		A1CCA3052EF31A77004FE4D0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3042EF31A77004FE4D0 /* FirebaseAnalytics */; };
 		A1CCA3072EF31A77004FE4D0 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3062EF31A77004FE4D0 /* FirebaseAnalyticsCore */; };
@@ -90,6 +91,7 @@
 				A1CCA3052EF31A77004FE4D0 /* FirebaseAnalytics in Frameworks */,
 				A1CCA3152EF31A77004FE4D0 /* FirebasePerformance in Frameworks */,
 				A1CCA3072EF31A77004FE4D0 /* FirebaseAnalyticsCore in Frameworks */,
+				A1A3768E2F02F3B400B25F2F /* NidThirdPartyLogin in Frameworks */,
 				A1A3759C2EFB941900B25F2F /* KakaoSDKUser in Frameworks */,
 				A1CCA3032EF31A77004FE4D0 /* FirebaseAI in Frameworks */,
 				A1CCA3602EF9B462004FE4D0 /* GoogleSignInSwift in Frameworks */,
@@ -187,6 +189,7 @@
 				A1A375992EFB941900B25F2F /* KakaoSDKCommon */,
 				A1A3759B2EFB941900B25F2F /* KakaoSDKUser */,
 				A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */,
+				A1A3768D2F02F3B400B25F2F /* NidThirdPartyLogin */,
 			);
 			productName = PulseBoard;
 			productReference = A1CCA0992EF294A3004FE4D0 /* PulseBoard.app */;
@@ -274,6 +277,7 @@
 				A1CCA3012EF31A77004FE4D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				A1CCA35C2EF9B462004FE4D0 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				A1A375962EFB941900B25F2F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				A1A3768C2F02F3B400B25F2F /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A1CCA09A2EF294A3004FE4D0 /* Products */;
@@ -664,6 +668,14 @@
 				minimumVersion = 2.26.0;
 			};
 		};
+		A1A3768C2F02F3B400B25F2F /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/naver/naveridlogin-sdk-ios-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 		A1CCA3012EF31A77004FE4D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -702,6 +714,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A1CCA3012EF31A77004FE4D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFunctions;
+		};
+		A1A3768D2F02F3B400B25F2F /* NidThirdPartyLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1A3768C2F02F3B400B25F2F /* XCRemoteSwiftPackageReference "naveridlogin-sdk-ios-swift" */;
+			productName = NidThirdPartyLogin;
 		};
 		A1CCA3022EF31A77004FE4D0 /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;
