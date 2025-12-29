@@ -12,14 +12,21 @@ import FirebaseAuth
 
 // MARK: - AuthService
 
-/// AuthProviding을 구현하는 실제 Auth 비즈니스 로직 담당 클래스입니다.
+/// 앱의 인증(Auth) 흐름을 총괄하는 서비스 구현체입니다.
 ///
-/// 로그인 방식 선택, Firebase Auth 연동,
-/// Auth 상태 감시를 통합적으로 관리합니다.
+/// 이 클래스는 `AuthProviding`을 구현하며,
+/// 다음 역할을 수행합니다:
+///
+/// 1. 로그인 Provider 선택 (Apple / Google / Kakao / Naver)
+/// 2. 각 Provider 전담 Handler로 로그인 위임
+/// 3. 소셜 로그인 결과를 Firebase 인증으로 변환
+/// 4. Firebase Auth 상태 변화 감시
 final class AuthService: AuthProviding {
     
     
     // MARK: - Properties
+    
+    private let socialAuthCoordinator: SocialAuthCoordinating
     
     /// Apple 로그인 전담 핸들러
     private let appleHandler = AppleAuthHandler()
@@ -32,6 +39,26 @@ final class AuthService: AuthProviding {
     
     /// Firebase Auth 상태 리스너 핸들
     private var authStateHandle: AuthStateDidChangeListenerHandle?
+    
+    
+    // ✅ 기본 init (앱에서 쓰기 쉽게 기본 조립을 대신 해주는 init)
+    convenience init() {
+        let functionsService = FirebaseFunctionsService()
+        let firebaseAuthService = FirebaseAuthService()
+        
+        let coordinator = SocialAuthCoordinator(
+            functionsService: functionsService,
+            authService: firebaseAuthService
+        )
+        
+        self.init(socialAuthCoordinator: coordinator)
+    }
+    
+    // ✅ 지정 init (테스트 / 확장용)
+    init(socialAuthCoordinator: SocialAuthCoordinating) {
+        self.socialAuthCoordinator = socialAuthCoordinator
+    }
+    
     
     
     // MARK: - Auth State
@@ -84,13 +111,40 @@ final class AuthService: AuthProviding {
             )
             
         case .kakao:
-            // Kakao 로그인은 async/await 기반이므로 Task로 감싼다.
-            
+            kakaoHandler.login { [weak self] result in
+                guard let self else { return }
+                
+                switch result {
+                case .success(let accessToken):
+                    Task {
+                        do {
+                            try await self.socialAuthCoordinator.signIn(
+                                with: accessToken,
+                                provider: .kakao
+                            )
+                            
+                            // UI 업데이트는 반드시 Main Thread
+                            DispatchQueue.main.async {
+                                completion(.success(()))   // ✅ 반드시 호출
+                            }
+                        } catch {
+                            DispatchQueue.main.async {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+
+
         case .naver:
             completion(.failure(AuthError.unsupportedProvider))
         }
     }
-    
+
     
     // MARK: - Logout
     
@@ -109,6 +163,9 @@ final class AuthService: AuthProviding {
     }
     
     deinit {
+        
+        print("💥 AuthService deinit")
+        
         if let handle = authStateHandle {
             Auth.auth().removeStateDidChangeListener(handle)
         }

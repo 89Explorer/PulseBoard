@@ -10,6 +10,7 @@
 		A1A375982EFB941900B25F2F /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A1A375972EFB941900B25F2F /* KakaoSDKAuth */; };
 		A1A3759A2EFB941900B25F2F /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = A1A375992EFB941900B25F2F /* KakaoSDKCommon */; };
 		A1A3759C2EFB941900B25F2F /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3759B2EFB941900B25F2F /* KakaoSDKUser */; };
+		A1A3763B2EFEE68F00B25F2F /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */; };
 		A1CCA3032EF31A77004FE4D0 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3022EF31A77004FE4D0 /* FirebaseAI */; };
 		A1CCA3052EF31A77004FE4D0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3042EF31A77004FE4D0 /* FirebaseAnalytics */; };
 		A1CCA3072EF31A77004FE4D0 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = A1CCA3062EF31A77004FE4D0 /* FirebaseAnalyticsCore */; };
@@ -84,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1A3763B2EFEE68F00B25F2F /* FirebaseFunctions in Frameworks */,
 				A1CCA3132EF31A77004FE4D0 /* FirebaseMessaging in Frameworks */,
 				A1CCA3052EF31A77004FE4D0 /* FirebaseAnalytics in Frameworks */,
 				A1CCA3152EF31A77004FE4D0 /* FirebasePerformance in Frameworks */,
@@ -120,12 +122,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A1A376392EFEE66600B25F2F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A1CCA0902EF294A3004FE4D0 = {
 			isa = PBXGroup;
 			children = (
 				A1CCA09B2EF294A3004FE4D0 /* PulseBoard */,
 				A1CCA0B22EF294A5004FE4D0 /* PulseBoardTests */,
 				A1CCA0BC2EF294A5004FE4D0 /* PulseBoardUITests */,
+				A1A376392EFEE66600B25F2F /* Frameworks */,
 				A1CCA09A2EF294A3004FE4D0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -176,6 +186,7 @@
 				A1A375972EFB941900B25F2F /* KakaoSDKAuth */,
 				A1A375992EFB941900B25F2F /* KakaoSDKCommon */,
 				A1A3759B2EFB941900B25F2F /* KakaoSDKUser */,
+				A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */,
 			);
 			productName = PulseBoard;
 			productReference = A1CCA0992EF294A3004FE4D0 /* PulseBoard.app */;
@@ -686,6 +697,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A1A375962EFB941900B25F2F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		A1A3763A2EFEE68F00B25F2F /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1CCA3012EF31A77004FE4D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
 		};
 		A1CCA3022EF31A77004FE4D0 /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;

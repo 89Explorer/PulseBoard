@@ -25,6 +25,9 @@ enum AuthError: Error {
     /// 로그인에 필요한 인증 정보를 생성할 수 없는 상태
     /// (예: Apple identityToken 없음, nonce 유실 등)
     case invalidCredential
+    
+    /// Firebase Functions 응답에서 Custom Token을 얻지 못한 경우
+    case invalidCustomToken
 }
 
 
@@ -39,6 +42,8 @@ extension AuthError: LocalizedError {
             return "아직 지원하지 않는 로그인 방식입니다."
         case .invalidCredential:
             return "인증 정보를 확인할 수 없습니다."
+        case .invalidCustomToken:
+            return "로그인 토큰을 생성할 수 없습니다."
         }
     }
 }

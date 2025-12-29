@@ -16,7 +16,7 @@ import Foundation
 ///
 /// 실제 로그인 구현 여부와는 무관하며,
 /// 아직 구현되지 않은 Provider도 enum 레벨에서는 미리 정의해둘 수 있습니다.
-enum SocialLoginProvider {
+enum SocialLoginProvider: String {
     case apple
     case google
     case kakao

@@ -10,7 +10,6 @@ import FirebaseAuth
 import GoogleSignIn
 
 
-
 // MARK: - GoogleAuthHandler
 /// Google 로그인 전담 핸들러
 ///

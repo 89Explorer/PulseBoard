@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import KakaoSDKAuth
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -25,6 +27,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let coordinator = RootCoordinator(window: window)
         self.rootCoordinator = coordinator
         coordinator.start()
+    }
+    
+    func scene(
+        _ scene: UIScene,
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) {
+        guard let url = URLContexts.first?.url else { return }
+
+        // ✅ Kakao 로그인 URL이면 여기서 완전히 처리하고 끝
+        if AuthApi.isKakaoTalkLoginUrl(url) {
+            AuthController.handleOpenUrl(url: url)
+            return   // 🔥 이 return 이 핵심
+        }
+
+        // 다른 URL들은 여기로
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
