@@ -30,3 +30,4 @@ protocol SocialAuthCoordinating {
         provider: SocialLoginProvider
     ) async throws
 }
+

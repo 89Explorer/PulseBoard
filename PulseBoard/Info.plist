@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>KAKAO_NATIVE_APP_KEY</key>
-	<string>e7bd664253021c70b0dfadd599cc6ba7</string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -24,14 +20,34 @@
 				<string>kakaoe7bd664253021c70b0dfadd599cc6ba7</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(NAVER_URL_SCHEME)</string>
+			</array>
+		</dict>
 	</array>
 	<key>GIDClientID</key>
 	<string>492846200858-rdgvraml2bjutaqruvier9ng14fderc1.apps.googleusercontent.com</string>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>e7bd664253021c70b0dfadd599cc6ba7</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>naversearchapp</string>
+		<string>naversearchthirdlogin</string>
 		<string>kakaolink</string>
 		<string>kakaokompassauth</string>
 	</array>
+	<key>NAVER_APP_NAME</key>
+	<string>$(NAVER_APP_NAME)</string>
+	<key>NAVER_CLIENT_ID</key>
+	<string>$(NAVER_CLIENT_ID)</string>
+	<key>NAVER_CLIENT_SECRET</key>
+	<string>$(NAVER_CLIENT_SECRET)</string>
+	<key>NAVER_URL_SCHEME</key>
+	<string>$(NAVER_URL_SCHEME)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
