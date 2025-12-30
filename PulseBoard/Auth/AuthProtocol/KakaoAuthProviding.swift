@@ -13,11 +13,11 @@ import Foundation
 ///
 /// AuthService는 이 Protocol에만 의존하며,
 /// Kakao SDK의 실제 구현 디테일은 알 필요가 없습니다.
-protocol KakaoAuthProviding {
-    
-    /// 카카오 로그인을 수행합니다.
-    ///
-    /// - Returns: Kakao accessToken
-    /// - Throws: 로그인 실패 시 에러
-    func login() async throws -> String
-}
+//protocol KakaoAuthProviding {
+//    
+//    /// 카카오 로그인을 수행합니다.
+//    ///
+//    /// - Returns: Kakao accessToken
+//    /// - Throws: 로그인 실패 시 에러
+//    func login() async throws -> String
+//}
