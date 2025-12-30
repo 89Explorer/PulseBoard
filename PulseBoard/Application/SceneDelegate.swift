@@ -35,6 +35,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         openURLContexts URLContexts: Set<UIOpenURLContext>
     ) {
         guard let url = URLContexts.first?.url else { return }
+        
+        print("🔗 [SceneDelegate] incoming url:", url.absoluteString)
 
         // ✅ Kakao 로그인 URL이면 여기서 완전히 처리하고 끝
         if AuthApi.isKakaoTalkLoginUrl(url) {
@@ -43,9 +45,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         // ✅ Naver 로그인 URL 처리 (최신 SDK)
-        if NidOAuth.shared.handleURL(url) {
+        if (NidOAuth.shared.handleURL(url) == true) {
+            print("🟢 Naver handled")
             return
         }
+        
+        print("⚠️ Unknown URL:", url.absoluteString)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

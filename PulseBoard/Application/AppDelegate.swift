@@ -50,13 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             clientSecret: ClientConfiguration.clientSecret,
             urlScheme: ClientConfiguration.urlScheme
         )
+        print("NAVER_URL_SCHEME(plist) =", Bundle.main.object(forInfoDictionaryKey: "NAVER_URL_SCHEME") ?? "nil")
 
         LogManager.print(.success, "[NaverConfig] NidOAuth initialized")
         return true
     }
-    
-    
 
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -70,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
+    
 }
 

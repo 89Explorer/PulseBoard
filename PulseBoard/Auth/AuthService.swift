@@ -8,6 +8,7 @@
 import Foundation
 import AuthenticationServices
 import FirebaseAuth
+import NidLogin
 
 
 // MARK: - AuthService
@@ -36,6 +37,8 @@ final class AuthService: AuthProviding {
     
     /// Kakao 로그인 전담 핸들러
     private let kakaoHandler = KakaoAuthHandler()
+    
+    private let naverHandler = NaverAuthHandler()
     
     /// Firebase Auth 상태 리스너 핸들
     private var authStateHandle: AuthStateDidChangeListenerHandle?
@@ -139,9 +142,36 @@ final class AuthService: AuthProviding {
                 }
             }
 
-
         case .naver:
-            completion(.failure(AuthError.unsupportedProvider))
+            naverHandler.login { [weak self] result in
+                guard let self else { return }
+
+                switch result {
+                case .success(let loginResult):
+                    let accessToken = loginResult.accessToken.tokenString
+
+                    Task {
+                        do {
+                            try await self.socialAuthCoordinator.signIn(
+                                with: accessToken,
+                                provider: .naver
+                            )
+
+                            DispatchQueue.main.async {
+                                completion(.success(()))
+                            }
+                        } catch {
+                            DispatchQueue.main.async {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+
         }
     }
 
